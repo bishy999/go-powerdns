@@ -21,7 +21,7 @@ export GO111MODULE=on
 ```
 
 
-## Branching
+## Branchingffore
 
 Create a feature branch to make your contributions
 
@@ -43,8 +43,8 @@ go test -v ./pkg/...
 Specific test can be targeted
 
 ```go
-go test -run TestHostDoesNotExist ./pkg/foreman/
-go test -run TestInvalidCredentials/no_username -v ./pkg/foreman/
+go test -run TestHostDoesNotExist ./pkg/powerdns/
+go test -run TestInvalidCredentials/no_username -v ./pkg/powerdns/
 ```
 
 ## Running tests with coverage
@@ -58,7 +58,7 @@ go test -cover ./pkg/...
 ## Running benchmark tests
 
 ```go
-go test -bench=BenchmarkConnectionInfo_CreateHost ./pkg/foreman/
+go test -bench=BenchmarkConnectionInfo_CreateHost ./pkg/powerdns/
 
 ```
 
@@ -68,9 +68,9 @@ go test -bench=BenchmarkConnectionInfo_CreateHost ./pkg/foreman/
 
 # Run specific benchmark
 # cpu
-go test -bench=BenchmarkConnectionInfo_CreateHost ./pkg/foreman/ -cpuprofile cpuprof_createhost.out
+go test -bench=BenchmarkConnectionInfo_CreateHost ./pkg/powerdns/ -cpuprofile cpuprof_createhost.out
 # memory
-go test -bench=BenchmarkConnectionInfo_CreateHost ./pkg/foreman/ -memprofile memprof_createhost.out
+go test -bench=BenchmarkConnectionInfo_CreateHost ./pkg/powerdns/ -memprofile memprof_createhost.out
 
 
 # Analyze results on the cli
