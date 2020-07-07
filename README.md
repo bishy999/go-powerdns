@@ -97,8 +97,6 @@ Set the required environmental variables "PDNS_URL", "PDNS_APIKEY", "PDNS_APIPAS
 
 powerdns-client add -domain=example.org -record=jbtest -ttl=3600 -ip=10.0.0.1
 
-powerdns-client add -domain=aws.xcl.ie -record=jbtest -ttl=3600 -ip=10.0.0.1
-
 ```
 
 
