@@ -43,8 +43,7 @@ go test -v ./pkg/...
 Specific test can be targeted
 
 ```go
-go test -run TestHostDoesNotExist ./pkg/powerdns/
-go test -run TestInvalidCredentials/no_username -v ./pkg/powerdns/
+go test -run ExampleCheckUserInput ./pkg/powerdns/
 ```
 
 ## Running tests with coverage
@@ -55,31 +54,6 @@ When working on code in this repository, tests can be run via:
 go test -cover ./pkg/...
 ```
 
-## Running benchmark tests
-
-```go
-go test -bench=BenchmarkConnectionInfo_CreateHost ./pkg/powerdns/
-
-```
-
-## Running benchmark tests and analyzing in Flamegraphs
-
-```go
-
-# Run specific benchmark
-# cpu
-go test -bench=BenchmarkConnectionInfo_CreateHost ./pkg/powerdns/ -cpuprofile cpuprof_createhost.out
-# memory
-go test -bench=BenchmarkConnectionInfo_CreateHost ./pkg/powerdns/ -memprofile memprof_createhost.out
-
-
-# Analyze results on the cli
-go tool pprof api.test cpuprof_createhost.out
-go tool pprof --alloc_space api.test memprof_createhost.out
-
-# Analyze results on ui
-go tool pprof -http=: cpuprof_createhost.out
-go tool pprof --alloc_space -http=: memprof_createhost.out
 
 ```
 # Run go static analysis

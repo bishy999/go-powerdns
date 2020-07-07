@@ -24,6 +24,6 @@ func usage() {
 // logerr error check and logging
 func logerr(err error, x ...int) {
 	if err != nil {
-		log.Fatalln("%v", err)
+		log.Fatalln(err)
 	}
 }

@@ -55,12 +55,12 @@ type RRsets struct {
 func (c *ClientConn) AddRecord() error {
 
 	log.Printf(" Adding DNS Record ")
-	jsonData, err := json.MarshalIndent(c.records, "", "    ")
+	jsonData, err := json.MarshalIndent(c.Records, "", "    ")
 	if err != nil {
 		return err
 	}
 
-	apiURL := generateAPIURL(c.input["url"], zoneEndpoint, c.input["domain"])
+	apiURL := generateAPIURL(c.Input["url"], zoneEndpoint, c.Input["domain"])
 
 	req, err := http.NewRequest(http.MethodPatch, apiURL.String(), bytes.NewBuffer(jsonData))
 	if err != nil {
@@ -74,8 +74,7 @@ func (c *ClientConn) AddRecord() error {
 	req = req.WithContext(ctx)
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Accept", "application/json")
-	//req.Header.Set(c.input["apikey"], c.input["apipasswd"])
-	req.Header["X-API-Key"] = []string{c.input["apipasswd"]}
+	req.Header["X-API-Key"] = []string{c.Input["apipasswd"]}
 
 	data, err := httputil.DumpRequest(req, true)
 	if err != nil {
@@ -83,7 +82,7 @@ func (c *ClientConn) AddRecord() error {
 	}
 	log.Printf(" Http Request \n%s", string(data))
 
-	resp, err := c.client.Do(req)
+	resp, err := c.Client.Do(req)
 	if err != nil {
 		return err
 	}

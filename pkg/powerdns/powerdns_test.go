@@ -8,7 +8,7 @@ import (
 	"github.com/bishy999/go-powerdns/pkg/powerdns"
 )
 
-func TestCheckUserInput(t *testing.T) {
+func TestNewClientConn(t *testing.T) {
 
 	defer os.Unsetenv("PDNS_URL")
 	defer os.Unsetenv("PDNS_APIKEY")
@@ -22,21 +22,12 @@ func TestCheckUserInput(t *testing.T) {
 	// Simulate user input on cli
 	os.Args = []string{"/fake/loc/main", "add", "-domain=example.org", "-record=mytest", "-ttl=3600", "-ip=10.0.0.1"}
 
-	t.Run("CheckUserInput", func(t *testing.T) {
-
-		result, err := powerdns.CheckUserInput()
+	t.Run("NewClientConn", func(t *testing.T) {
+		pdns, err := powerdns.NewClientConn()
 		if err != nil {
-			log.Fatalf("error with user inoput: [ %v ]", err)
+			t.Fatalf("Could not read response %v correctly", err)
 		}
-		if v, found := result["url"]; !found {
-			log.Fatalf("Input missing: [ %v ]", v)
-		}
-		if v, found := result["domain"]; !found {
-			log.Fatalf("Input missing: [ %v ]", v)
-		}
-
-		log.Printf("Response: %v", result)
-
+		log.Printf("Response: %v", pdns)
 	})
 
 }

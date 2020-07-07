@@ -2,13 +2,15 @@ package powerdns_test
 
 import (
 	"log"
+	"net/http"
+	"net/http/httptest"
 	"os"
 	"testing"
 
 	"github.com/bishy999/go-powerdns/pkg/powerdns"
 )
 
-func TestCheckUserInput(t *testing.T) {
+func TestAddrecord(t *testing.T) {
 
 	defer os.Unsetenv("PDNS_URL")
 	defer os.Unsetenv("PDNS_APIKEY")
@@ -22,21 +24,24 @@ func TestCheckUserInput(t *testing.T) {
 	// Simulate user input on cli
 	os.Args = []string{"/fake/loc/main", "add", "-domain=example.org", "-record=mytest", "-ttl=3600", "-ip=10.0.0.1"}
 
-	t.Run("CheckUserInput", func(t *testing.T) {
+	t.Run("AddRecord", func(t *testing.T) {
 
-		result, err := powerdns.CheckUserInput()
+		srv := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+			rw.Write([]byte("hello"))
+		}))
+		defer srv.Close()
+
+		pdns := &powerdns.ClientConn{
+			Client: *srv.Client(),
+			Input:  map[string]string{"url": srv.URL},
+		}
+
+		err := pdns.AddRecord()
 		if err != nil {
-			log.Fatalf("error with user inoput: [ %v ]", err)
-		}
-		if v, found := result["url"]; !found {
-			log.Fatalf("Input missing: [ %v ]", v)
-		}
-		if v, found := result["domain"]; !found {
-			log.Fatalf("Input missing: [ %v ]", v)
+			log.Fatalf("error adding record: [ %v ]", err)
 		}
 
-		log.Printf("Response: %v", result)
-
+		log.Printf("Response: %v", pdns)
 	})
 
 }

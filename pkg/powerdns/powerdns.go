@@ -9,9 +9,9 @@ import (
 
 // ClientConn required data for interaction with the powerdns api
 type ClientConn struct {
-	client  http.Client
-	records RRsets
-	input   map[string]string
+	Client  http.Client
+	Records RRsets
+	Input   map[string]string
 }
 
 // NewClientConn validate the user input is as expected and add it to a ClientConn structure.
@@ -24,7 +24,7 @@ func NewClientConn() (*ClientConn, error) {
 	}
 
 	conn := ClientConn{
-		input: input,
+		Input: input,
 	}
 
 	tr := &http.Transport{
@@ -32,7 +32,7 @@ func NewClientConn() (*ClientConn, error) {
 	}
 	cli := http.Client{Transport: tr}
 
-	ttl, err := strconv.Atoi(conn.input["ttl"])
+	ttl, err := strconv.Atoi(conn.Input["ttl"])
 	if err != nil {
 		return nil, err
 	}
@@ -40,13 +40,13 @@ func NewClientConn() (*ClientConn, error) {
 	record := RRsets{
 		Sets: []RRset{
 			RRset{
-				Name:       conn.input["record"],
+				Name:       conn.Input["record"],
 				Type:       "A",
 				TTL:        ttl,
 				Changetype: "REPLACE",
 				Records: []Records{
 					Records{
-						Content:  conn.input["ip"],
+						Content:  conn.Input["ip"],
 						Disabled: false,
 					},
 				},
@@ -61,8 +61,8 @@ func NewClientConn() (*ClientConn, error) {
 		},
 	}
 
-	conn.client = cli
-	conn.records = record
+	conn.Client = cli
+	conn.Records = record
 
 	return &conn, nil
 
