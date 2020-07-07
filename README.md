@@ -5,7 +5,7 @@ go-powerdns is a Go client library for accessing the PowerDNS API.
 
 This client initially just has the ability to add a records to a specific zone and was done primarily for use with Jenkins.
 
-You can view the PowerDNS Http API docs here: [https://doc.powerdns.com/authoritative/http-api/index.html/](https://doc.powerdns.com/authoritative/http-api/index.html)
+You can view the PowerDNS Http API docs here: [https://doc.powerdns.com/authoritative/http-api/index.html](https://doc.powerdns.com/authoritative/http-api/index.html)
 
 You can view the client API docs by serving the docs from this repository : [http://localhost:6060/pkg/](http://localhost:6060/pkg/)
 ```go
@@ -13,7 +13,7 @@ You can view the client API docs by serving the docs from this repository : [htt
 ```
 
 ## Status
-[![Build Status](https://travis-ci.com/bishy999/go-powerdns.svg?branch=master)](https://travis-ci.com/go-powerdns)
+[![Build Status](https://travis-ci.com/bishy999/go-powerdns.svg?branch=master)](https://travis-ci.com/bishy999/go-powerdns)
 [![Go Report Card](https://goreportcard.com/badge/github.com/bishy999/go-powerdns)](https://goreportcard.com/badge/github.com/bishy999/go-powerdns)
 [![GoDoc](https://godoc.org/github.com/bishy999/go-powerdns/pkg/powerdns?status.svg)](https://godoc.org/github.com/bishy999/go-powerdns/pkg/powerdns)
 ![GitHub Repo size](https://img.shields.io/github/repo-size/bishy999/go-powerdns)
@@ -90,12 +90,14 @@ Download the client binary from the repository and compile it with version
 Go get will download from the master, as such when we download it give it the tag verison from the master
 
 ```go
-go get -ldflags "-X main.version=v1.0.0 -X main.buildstamp=`TZ=UTC date -u '+%Y-%m-%dT%H:%M:%SZ'`)"  github.com/bishy999/go-powerdns/tree/master/cmd/powerdns-client
+go get -ldflags "-X main.version=v1.0.0 -X main.buildstamp=`TZ=UTC date -u '+%Y-%m-%dT%H:%M:%SZ'`)" github.com/bishy999/go-powerdns/cmd/powerdns-client
 
 
 Set the required environmental variables "PDNS_URL", "PDNS_APIKEY", "PDNS_APIPASSWD"
 
-./powerdns-client add -domain=example.org -record=jbtest -ttl=3600 -ip=10.0.0.1
+powerdns-client add -domain=example.org -record=jbtest -ttl=3600 -ip=10.0.0.1
+
+powerdns-client add -domain=aws.xcl.ie -record=jbtest -ttl=3600 -ip=10.0.0.1
 
 ```
 
