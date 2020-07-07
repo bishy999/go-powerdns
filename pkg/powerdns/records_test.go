@@ -27,7 +27,8 @@ func TestAddrecord(t *testing.T) {
 	t.Run("AddRecord", func(t *testing.T) {
 
 		srv := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
-			rw.Write([]byte("hello"))
+			_, err := rw.Write([]byte("ok"))
+			powerdns.LogErr(err)
 		}))
 		defer srv.Close()
 

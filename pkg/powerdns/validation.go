@@ -29,7 +29,6 @@ const (
 	`
 
 	createArg = "add"
-	deleteArg = "delete"
 )
 
 // CheckUserInput check cli input provided by user meets requirements and return input in map if it does
@@ -61,7 +60,7 @@ func CheckUserInput() (map[string]string, error) {
 	switch os.Args[1] {
 	case createArg:
 		err := createCommand.Parse(os.Args[2:])
-		logerr(err)
+		LogErr(err)
 	default:
 		usage()
 		os.Exit(1)

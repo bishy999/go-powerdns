@@ -21,9 +21,9 @@ func usage() {
 	log.Print(deleteUsgage)
 }
 
-// logerr error check and logging
-func logerr(err error, x ...int) {
+// LogErr error check and logging
+func LogErr(err error) {
 	if err != nil {
-		log.Fatalln(err)
+		log.Fatalf("Error encountered: %v", err)
 	}
 }
