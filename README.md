@@ -66,17 +66,20 @@ func main() {
 	log.Printf("Build Time : %s\n", buildstamp)
 
 	pdns, err := powerdns.NewClientConn()
-
 	if err != nil {
 		log.Fatalf("error creating client: [ %v ]", err)
 	}
 
-	err = pdns.AddRecord()
+	err = pdns.UpdateARecord()
 	if err != nil {
-		log.Printf("error adding record: [ %v ]", err)
+		log.Fatalf("error adding record: [ %v ]", err)
+	} else {
+		log.Fatalf("### Couldn't find correct action to take ### ")
 	}
 
 }
+
+
 
 
 
@@ -90,12 +93,14 @@ Download the client binary from the repository and compile it with version
 Go get will download from the master, as such when we download it give it the tag verison from the master
 
 ```go
-go get -ldflags "-X main.version=v1.0.0 -X main.buildstamp=`TZ=UTC date -u '+%Y-%m-%dT%H:%M:%SZ'`)" github.com/bishy999/go-powerdns/cmd/powerdns-client
+go get -ldflags "-X main.version=v1.0.1 -X main.buildstamp=`TZ=UTC date -u '+%Y-%m-%dT%H:%M:%SZ'`)" github.com/bishy999/go-powerdns/cmd/powerdns-client
 
 
 Set the required environmental variables "PDNS_URL", "PDNS_APIKEY", "PDNS_APIPASSWD"
 
 powerdns-client add -domain=example.org -record=jbtest -ttl=3600 -ip=10.0.0.1
+
+powerdns-client delete -domain=example.org -record=jbtest
 
 ```
 

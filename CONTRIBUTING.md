@@ -43,7 +43,7 @@ go test -v ./pkg/...
 Specific test can be targeted
 
 ```go
-go test -run ExampleCheckUserInput ./pkg/powerdns/
+go test -run TestUserInputAdd ./pkg/powerdns/
 ```
 
 ## Running tests with coverage

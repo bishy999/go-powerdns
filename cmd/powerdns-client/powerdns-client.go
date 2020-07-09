@@ -17,14 +17,15 @@ func main() {
 	log.Printf("Build Time : %s\n", buildstamp)
 
 	pdns, err := powerdns.NewClientConn()
-
 	if err != nil {
 		log.Fatalf("error creating client: [ %v ]", err)
 	}
 
-	err = pdns.AddRecord()
+	err = pdns.UpdateARecord()
 	if err != nil {
-		log.Printf("error adding record: [ %v ]", err)
+		log.Fatalf("error adding record: [ %v ]", err)
+	} else {
+		log.Fatalf("### Couldn't find correct action to take ### ")
 	}
 
 }

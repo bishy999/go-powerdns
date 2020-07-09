@@ -10,7 +10,7 @@ import (
 	"github.com/bishy999/go-powerdns/pkg/powerdns"
 )
 
-func TestAddrecord(t *testing.T) {
+func TestAddRecord(t *testing.T) {
 
 	defer os.Unsetenv("PDNS_URL")
 	defer os.Unsetenv("PDNS_APIKEY")
@@ -37,7 +37,7 @@ func TestAddrecord(t *testing.T) {
 			Input:  map[string]string{"url": srv.URL},
 		}
 
-		err := pdns.AddRecord()
+		err := pdns.UpdateARecord()
 		if err != nil {
 			log.Fatalf("error adding record: [ %v ]", err)
 		}

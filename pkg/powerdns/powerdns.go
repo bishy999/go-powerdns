@@ -2,6 +2,7 @@ package powerdns
 
 import (
 	"crypto/tls"
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -17,8 +18,9 @@ type ClientConn struct {
 // NewClientConn validate the user input is as expected and add it to a ClientConn structure.
 func NewClientConn() (*ClientConn, error) {
 
-	input, err := CheckUserInput()
+	var ttl int
 
+	input, err := CheckUserInput()
 	if err != nil {
 		return nil, err
 	}
@@ -32,37 +34,60 @@ func NewClientConn() (*ClientConn, error) {
 	}
 	cli := http.Client{Transport: tr}
 
-	ttl, err := strconv.Atoi(conn.Input["ttl"])
-	if err != nil {
-		return nil, err
-	}
+	if conn.Input["action"] == "add" {
 
-	record := RRsets{
-		Sets: []RRset{
-			RRset{
-				Name:       conn.Input["record"],
-				Type:       "A",
-				TTL:        ttl,
-				Changetype: "REPLACE",
-				Records: []Records{
-					Records{
-						Content:  conn.Input["ip"],
-						Disabled: false,
+		ttl, err = strconv.Atoi(conn.Input["ttl"])
+		if err != nil {
+			return nil, err
+		}
+
+		record := RRsets{
+			Sets: []RRset{
+				RRset{
+					Name:       conn.Input["record"],
+					Type:       "A",
+					TTL:        ttl,
+					Changetype: "REPLACE",
+					Records: []Records{
+						Records{
+							Content:  conn.Input["ip"],
+							Disabled: false,
+						},
 					},
-				},
-				Comments: []Comments{
-					Comments{
-						Content:    "Automatically created via Http API",
-						Account:    "Infra Services",
-						ModifiedAT: int64(time.Now().Unix()),
+					Comments: []Comments{
+						Comments{
+							Content:    "Automatically created via Http API",
+							Account:    "Infra Services",
+							ModifiedAT: int64(time.Now().Unix()),
+						},
 					},
 				},
 			},
-		},
-	}
+		}
 
-	conn.Client = cli
-	conn.Records = record
+		conn.Client = cli
+		conn.Records = record
+
+	} else if conn.Input["action"] == "delete" {
+		record := RRsets{
+			Sets: []RRset{
+				RRset{
+					Name:       conn.Input["record"],
+					Type:       "A",
+					TTL:        ttl,
+					Changetype: "DELETE",
+					Records:    []Records{},
+					Comments:   []Comments{},
+				},
+			},
+		}
+
+		conn.Client = cli
+		conn.Records = record
+
+	} else {
+		return nil, fmt.Errorf("Couldn't find correct action to take. Please double check your input is correct. ")
+	}
 
 	return &conn, nil
 

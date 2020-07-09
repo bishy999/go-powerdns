@@ -28,8 +28,8 @@ type RRset struct {
 	Type       string     `json:"type,omitempty"`
 	TTL        int        `json:"ttl,omitempty"`
 	Changetype string     `json:"changetype,omitempty"`
-	Records    []Records  `json:"records,omitempty"`
-	Comments   []Comments `json:"comments,omitempty"`
+	Records    []Records  `json:"records"`
+	Comments   []Comments `json:"comments"`
 }
 
 // Records structure with JSON API metadata
@@ -51,10 +51,10 @@ type RRsets struct {
 	Sets []RRset `json:"rrsets,omitempty"`
 }
 
-// AddRecord add a record to a domain
-func (c *ClientConn) AddRecord() error {
+// UpdateARecord add/delete A record
+func (c *ClientConn) UpdateARecord() error {
 
-	log.Printf(" Adding DNS Record ")
+	log.Printf("%s DNS A Record ", c.Input["action"])
 	jsonData, err := json.MarshalIndent(c.Records, "", "    ")
 	if err != nil {
 		return err
@@ -81,7 +81,6 @@ func (c *ClientConn) AddRecord() error {
 		return err
 	}
 	log.Printf(" Http Request \n%s", string(data))
-
 	resp, err := c.Client.Do(req)
 	if err != nil {
 		return err
@@ -106,6 +105,7 @@ func (c *ClientConn) AddRecord() error {
 
 	return err
 }
+
 
 func generateAPIURL(baseURL, path, domain string) *url.URL {
 
