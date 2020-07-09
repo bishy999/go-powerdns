@@ -1,9 +1,9 @@
 
 # go-powerdns
 
-go-powerdns is a Go client library for accessing the PowerDNS API.
+go-powerdns is a Go client for accessing the PowerDNS API.
 
-This client initially just has the ability to add a records to a specific zone and was done primarily for use with Jenkins.
+This client initially just has the ability to add and delete A records to/from a specific zone and was done primarily for use with Jenkins.
 
 You can view the PowerDNS Http API docs here: [https://doc.powerdns.com/authoritative/http-api/index.html](https://doc.powerdns.com/authoritative/http-api/index.html)
 
@@ -72,7 +72,7 @@ func main() {
 
 	err = pdns.UpdateARecord()
 	if err != nil {
-		log.Fatalf("error adding record: [ %v ]", err)
+		log.Fatalf("error updating record: [ %v ]", err)
 	} else {
 		log.Fatalf("### Couldn't find correct action to take ### ")
 	}
