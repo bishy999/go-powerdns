@@ -73,11 +73,10 @@ func main() {
 	err = pdns.UpdateARecord()
 	if err != nil {
 		log.Fatalf("error updating record: [ %v ]", err)
-	} else {
-		log.Fatalf("### Couldn't find correct action to take ### ")
 	}
 
 }
+
 
 
 
